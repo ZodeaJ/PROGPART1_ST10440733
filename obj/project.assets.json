@@ -1,21 +1,21 @@
 {
   "version": 3,
   "targets": {
-    "net9.0": {
+    "net8.0": {
       "System.Windows.Extensions/9.0.3": {
         "type": "package",
         "compile": {
-          "lib/net9.0/System.Windows.Extensions.dll": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net9.0/System.Windows.Extensions.dll": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
             "related": ".xml"
           }
         },
         "runtimeTargets": {
-          "runtimes/win/lib/net9.0/System.Windows.Extensions.dll": {
+          "runtimes/win/lib/net8.0/System.Windows.Extensions.dll": {
             "assetType": "runtime",
             "rid": "win"
           }
@@ -50,7 +50,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net9.0": [
+    "net8.0": [
       "System.Windows.Extensions >= 9.0.3"
     ]
   },
@@ -76,7 +76,7 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net9.0"
+        "net8.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -84,8 +84,8 @@
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net9.0": {
-          "targetAlias": "net9.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "projectReferences": {}
         }
       },
@@ -102,8 +102,8 @@
       "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
-      "net9.0": {
-        "targetAlias": "net9.0",
+      "net8.0": {
+        "targetAlias": "net8.0",
         "dependencies": {
           "System.Windows.Extensions": {
             "target": "Package",

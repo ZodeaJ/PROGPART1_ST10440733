@@ -19,10 +19,21 @@ namespace CyberSecurityChatBot
         // Static Random instance to ensure proper randomization
         private static Random rng = new Random();
 
-        public static void StartChat(string userName)
+        // Variable to keep track of the current topic.
+        private static string currentTopic = string.Empty;
+
+        private static string userNameMemory = "";
+
+        private static string favouriteTopicMemory = "";
+
+        public static void StartChat(string userName, string favouriteTopic)
         {
+            userNameMemory = userName;
+            favouriteTopicMemory = favouriteTopic;
+
             // Instance of CyberAdvice.
             CyberAdvice advice = new CyberAdvice();
+
 
             //Personalised greeting to user with instructions.
             Console.WriteLine("Chat: ");
@@ -38,7 +49,8 @@ namespace CyberSecurityChatBot
             while (true)
             {
                 Console.Write("\nYou: ");
-                string userInput = Console.ReadLine()?.Trim().ToLower();
+                string userInput = Console.ReadLine().ToLower();
+                EmotionHandling.EmotionResponse(userInput);
 
                 //IF statement for when user enters incorrectly or nothing at all.
                 if (string.IsNullOrEmpty(userInput))
@@ -66,76 +78,102 @@ namespace CyberSecurityChatBot
                     case "how are you?":
                     case "how are you":
                         Console.WriteLine("I'm doing well, thanks for asking!");
-                        break;
+                        continue;
 
                     //Case when user asks chat whats your purpose.
                     case "what's your purpose?":
                     case "whats your purpose":
                         Console.WriteLine("My purpose is to educate you on attacks online and help you avoid it");
-                        break;
+                        continue;
 
                     //Case when user asks chat what can i ask you about
                     case "what can i ask you about?":
                     case "what can i ask you about":
-                        Console.ForegroundColor= ConsoleColor.Cyan;
-                        Console.WriteLine("You can ask me about:\n 1) Password Safety\n 2) Phishing\n 3) Safe Browsing \n 4) Device Safety " +
-                            "\n 5) Social Engineering \n 6) Public Wifi Safety");
-                        Console.ResetColor();
-                        break;
-
-                    //Multiple cases to try an cover all different options the user would choose for password.
-                    case "tell me about password safety":
-                    case "password safety":
-                    case "strong password":
-                    case "1":
-                    case "how can i create a strong password?":
-                        advice.GetPasswordAdvice();
                         Console.ForegroundColor = ConsoleColor.Cyan;
-                        Console.WriteLine("Example password:" + passwords[rng.Next(passwords.Count)]);
+                        Console.WriteLine("You can ask me about:\n - Password Safety\n - Phishing\n - Safe Browsing \n - Device Safety " +
+                            "\n - Social Engineering \n - Public Wifi Safety");
                         Console.ResetColor();
-                        break;
+                        continue;
+                }
 
-                    //Multiple cases to try an cover all different options the user would choose for phishing.
-                    case "phishing":
-                    case "tell me about phishing":
-                    case "2":
+                    //Key word detection.
+                    if (userInput.Contains("password"))
+                    {
+                        if (favouriteTopicMemory == "password")
+                        {
+                            Console.WriteLine($"Ah yes, {userNameMemory}, your favourite topic! Here's some advice:");
+                        }
+                        advice.GetPasswordAdvice();
+                        currentTopic = "password";
+                    }
+                    else if (userInput.Contains("phishing"))
+                    {
+                        if (favouriteTopicMemory == "phishing")
+                        {
+                            Console.WriteLine($"Ah yes, {userNameMemory}, your favourite topic! Here's some advice:");
+                        }
                         advice.GetPhishingAdvice();
-                        break;
-
-                    //Multiple cases to try an cover all different options the user would choose for safe browsing.
-                    case "safe browsing":
-                    case "tell me about safe browsing":
-                    case "3":
+                        currentTopic = "phishing";
+                    }
+                    else if (userInput.Contains("browsing"))
+                    {
+                        if (favouriteTopicMemory == "browsing")
+                        {
+                            Console.WriteLine($"Ah yes, {userNameMemory}, your favourite topic! Here's some advice:");
+                        }
                         advice.GetSafeBrowsingAdvice();
-                        break;
-
-                    //Multiple cases to try an cover all different options the user would choose for device safety.
-                    case "device safety":
-                    case "tell me about device security":
-                    case "4":
+                        currentTopic = "browsing";
+                    }
+                    else if (userInput.Contains("device safety"))
+                    {
+                        if (favouriteTopicMemory == "device safety")
+                        {
+                            Console.WriteLine($"Ah yes, {userNameMemory}, your favourite topic! Here's some advice:");
+                        }
                         advice.GetDeviceSafetyAdvice();
-                        break;
-
-                    //Multiple cases to try an cover all different options the user would choose for social engineering.
-                    case "social engineering":
-                    case "tell me about social engineering":
-                    case "5":
+                        currentTopic = "device safety";
+                    }
+                    else if (userInput.Contains("social engineering"))
+                    {
+                        if (favouriteTopicMemory == "social engineering")
+                        {
+                            Console.WriteLine($"Ah yes, {userNameMemory}, your favourite topic! Here's some advice:");
+                        }
                         advice.GetSocialEngineeringAdvice();
-                        break;
-
-                    //Multiple cases to try an cover all different options the user would choose for public wifi safety.
-                    case "public wifi safety":
-                    case "tell me about public wifi safety":
-                    case "6":
+                        currentTopic = "social engineering";
+                    }
+                    else if (userInput.Contains("wifi"))
+                    {
+                        if (favouriteTopicMemory == "wifi")
+                        {
+                            Console.WriteLine($"Ah yes, {userNameMemory}, your favourite topic! Here's some advice:");
+                        }
                         advice.GetPublicWifiSafetyAdvice();
-                        break;
-
-                    //Default case for when user chooses options not covered.
-                    default:
+                        currentTopic = "wifi";
+                    }
+                    else
+                    {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("I'm not sure about that. Please check if you have chosen the options listed.");
+                        Console.WriteLine("Sorry, I didn't quite get that. Can you ask me about one of the topics?");
                         Console.ResetColor();
-                        break;
+                        continue;
+                    }
+
+                // Follow-up for specific topics
+                Console.Write("\nChatbot: ");
+                if (userInput.Contains("tell me more") || userInput.Contains("explain") || userInput.Contains("know more about"))
+                {
+                    if (!string.IsNullOrEmpty(currentTopic))
+                    {
+                        Console.WriteLine($"Let me tell you more about {currentTopic}:");
+                        advice.DisplayRandomTip(currentTopic);  
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("I haven't given you any advice yet. Please ask me about a topic first.");
+                        Console.ResetColor();
+                    }
                 }
             }
         }

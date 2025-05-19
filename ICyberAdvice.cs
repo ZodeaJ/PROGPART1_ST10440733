@@ -10,11 +10,11 @@ namespace CyberSecurityChatBot
     internal interface ICyberAdvice
     {
         //Methods for GetPasswordAdvice, GetPhishingAdvice and GetSafeBrowsingAdvice.
-        void GetPasswordAdvice();
-        void GetPhishingAdvice();
-        void GetSafeBrowsingAdvice();
-        void GetSocialEngineeringAdvice();
-        void GetPublicWifiSafetyAdvice();
-        void GetDeviceSafetyAdvice();
+        public void GetPasswordAdvice();
+        public void GetPhishingAdvice();
+        public void GetSafeBrowsingAdvice();
+        public void GetSocialEngineeringAdvice();
+        public void GetPublicWifiSafetyAdvice();
+        public void GetDeviceSafetyAdvice();
     }
 }
